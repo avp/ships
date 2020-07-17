@@ -1,26 +1,24 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+// @format
 
-function App() {
+import React, { useState } from 'react';
+import './App.css';
+import Setup from './Setup.js';
+import Game from './Game.js';
+
+const PHASE_SETUP = 0;
+const PHASE_PLAY = 1;
+
+export default function App() {
+  const [phase, setPhase] = useState(PHASE_SETUP);
+
+  const completeSetup = (positions) => {};
+
+  const inside = phase == PHASE_SETUP ? <Setup /> : <Game />;
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div class="App">
+      <h1>SUPER DELUXE SHIP BATTLE</h1>
+      {inside}
     </div>
   );
 }
-
-export default App;
