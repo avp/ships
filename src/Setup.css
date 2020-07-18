@@ -1,0 +1,11 @@
+.SetupContainer {
+  display: flex;
+  flex-direction: row;
+}
+
+.SetupGrid {
+}
+
+.SetupFleet {
+  padding: 30px;
+}

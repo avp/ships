@@ -1,5 +1,5 @@
 .Grid {
-  border: 1px solid #555;
+  border-collapse: collapse;
   margin: 5px;
 }
 
