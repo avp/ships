@@ -25,19 +25,28 @@ export class Grid {
     }
   }
 
+  clearHover(): void {
+    for (const r of this.grid) {
+      for (const c of r) {
+        c.hover = HoverState.None;
+      }
+    }
+  }
+
   handleHover([r, c]: Point, enter: boolean, ship: Ship, dir: Dir): void {
     const size = ship.size();
     const points = [];
     let state = HoverState.Valid;
     for (let i = 0; i < size; ++i) {
+      if (r >= GRID_SIZE || c >= GRID_SIZE) {
+        state = HoverState.Invalid;
+        break;
+      }
       points.push([r, c]);
       if (this.grid[r][c].ship) {
         state = HoverState.Invalid;
       }
       [r, c] = applyDir([r, c], dir);
-      if (r >= GRID_SIZE || c >= GRID_SIZE) {
-        break;
-      }
     }
     for (const [r, c] of points) {
       this.grid[r][c].hover = enter ? state : HoverState.None;

@@ -18,13 +18,14 @@ export function GridView({ grid, onMouseEnter, onMouseLeave }: Props) {
 
   const cells = [];
   for (const ch of ' ABCDEFGHIJ') {
-    cells.push(<td>{ch}</td>);
+    cells.push(<td key={ch}>{ch}</td>);
   }
-  rows.push(<tr className={'Row'}>{cells}</tr>);
+  rows.push(<tr key={-1000} className={'Row'}>{cells}</tr>);
 
+  let key = 0;
   for (let r = 0; r < GRID_SIZE; ++r) {
     const cells = [];
-    cells.push(<td>{r + 1}</td>);
+    cells.push(<td key={-1 * r}>{r + 1}</td>);
     for (let c = 0; c < GRID_SIZE; ++c) {
       let className = ['Cell'];
       switch (grid.grid[r][c].hover) {
@@ -40,13 +41,14 @@ export function GridView({ grid, onMouseEnter, onMouseLeave }: Props) {
       }
       cells.push(
         <td
+          key={++key}
           className={className.join(' ')}
           onMouseOver={() => onMouseEnter(r, c)}
           onMouseOut={() => onMouseLeave(r, c)}
         />
       );
     }
-    rows.push(<tr className={'Row'}>{cells}</tr>);
+    rows.push(<tr key={++key} className={'Row'}>{cells}</tr>);
   }
 
   return (
