@@ -19,9 +19,9 @@
 }
 
 .HoverValid {
-  background: #008;
+  background: #555;
 }
 
 .HoverInvalid {
-  background: #800;
+  background: #a00;
 }

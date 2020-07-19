@@ -33,24 +33,48 @@ export class Grid {
     }
   }
 
-  handleHover([r, c]: Point, enter: boolean, ship: Ship, dir: Dir): void {
+  isValidPlacement(
+    [r, c]: Point,
+    ship: Ship,
+    dir: Dir
+  ): [boolean, Array<Point>] {
     const size = ship.size();
-    const points = [];
-    let state = HoverState.Valid;
+    const points: Array<Point> = [];
+    let result = true;
     for (let i = 0; i < size; ++i) {
       if (r >= GRID_SIZE || c >= GRID_SIZE) {
-        state = HoverState.Invalid;
-        break;
+        return [false, points];
       }
       points.push([r, c]);
       if (this.grid[r][c].ship) {
-        state = HoverState.Invalid;
+        result = false;
       }
       [r, c] = applyDir([r, c], dir);
     }
+    return [result, points];
+  }
+
+  handleHover(p: Point, enter: boolean, ship: Ship, dir: Dir): void {
+    let [valid, points] = this.isValidPlacement(p, ship, dir);
+    let state = valid ? HoverState.Valid : HoverState.Invalid;
     for (const [r, c] of points) {
       this.grid[r][c].hover = enter ? state : HoverState.None;
     }
+  }
+
+  placeShip(p: Point, ship: Ship, dir: Dir): boolean {
+    let [valid, points] = this.isValidPlacement(p, ship, dir);
+    if (!valid) {
+      return false;
+    }
+
+    for (const [r, c] of points) {
+      this.grid[r][c].ship = ship;
+    }
+    ship.dir = dir;
+    ship.pos = p;
+
+    return true;
   }
 }
 

@@ -4,28 +4,34 @@ import { Dir } from './Geometry';
 
 interface Kind {
   name: string;
+  className: string;
   size: number;
 }
 
 const kinds: Record<string, Kind> = {
   destroyer: {
     name: 'Destroyer',
+    className: 'Destroyer',
     size: 2,
   },
   submarine: {
     name: 'Submarine',
+    className: 'Submarine',
     size: 3,
   },
   cruiser: {
     name: 'Cruiser',
+    className: 'Cruiser',
     size: 3,
   },
   battleship: {
     name: 'Battleship',
+    className: 'Battleship',
     size: 4,
   },
   carrier: {
     name: 'Aircraft Carrier',
+    className: 'Carrier',
     size: 5,
   },
 };

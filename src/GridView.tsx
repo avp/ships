@@ -10,10 +10,11 @@ export interface Props {
   grid: Grid;
   onMouseEnter: (r: number, c: number) => void;
   onMouseLeave: (r: number, c: number) => void;
+  onClick?: (r: number, c: number) => void;
 }
 
 /// Displays the given fleet on a grid.
-export function GridView({ grid, onMouseEnter, onMouseLeave }: Props) {
+export function GridView({ grid, onMouseEnter, onMouseLeave, onClick}: Props) {
   const rows = [];
 
   const cells = [];
@@ -39,12 +40,17 @@ export function GridView({ grid, onMouseEnter, onMouseLeave }: Props) {
           className.push('HoverInvalid');
           break;
       }
+      const ship = grid.grid[r][c].ship;
+      if (ship) {
+        className.push(ship.kind.className);
+      }
       cells.push(
         <td
           key={++key}
           className={className.join(' ')}
           onMouseOver={() => onMouseEnter(r, c)}
           onMouseOut={() => onMouseLeave(r, c)}
+          onClick={() => onClick?.(r, c)}
         />
       );
     }

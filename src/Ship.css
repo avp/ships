@@ -1,8 +1,6 @@
 .Ship {
-  background: blue;
   height: 30px;
   margin: 10px;
-  border-radius: 15px;
 }
 
 .selected {
@@ -11,4 +9,28 @@
 
 .unselected {
   border: 3px solid transparent;
+}
+
+.Destroyer {
+  background: #e4e;
+}
+
+.Submarine {
+  background: #0e0;
+}
+
+.Cruiser {
+  background: #0ee;
+}
+
+.Battleship {
+  background: #ee0;
+}
+
+.Carrier {
+  background: #aae;
+}
+
+.dimmed {
+  filter: brightness(50%);
 }

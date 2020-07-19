@@ -7,9 +7,18 @@ import { ShipView } from './ShipView';
 
 import { Fleet, Ship } from './Fleet';
 import { Grid } from './Grid';
-import { Dir } from './Geometry';
+import { Dir, Point } from './Geometry';
 
-export default function Setup() {
+interface Props {
+  onSetup(grid: Grid, fleet: Fleet): void;
+}
+
+/**
+ * Handles setup of the ships on a grid for the player.
+ * Pass the onSetup() hook in order to get the grid and fleet which will
+ * be used for playing the actual game.
+ */
+export function Setup({onSetup}: Props) {
   const [forcer, setForcer] = useState(0);
   const [fleet, setFleet] = useState(() => new Fleet());
   const [grid, setGrid] = useState(() => new Grid());
@@ -18,11 +27,25 @@ export default function Setup() {
   const [activeShip, setActiveShip] = useState<Ship | null>(null);
 
   const clickShip = (activated: boolean, ship: Ship) => {
+    if (ship.pos) {
+      return;
+    }
     if (activated) {
       setActiveShip(ship);
     } else {
       setActiveShip(null);
     }
+  };
+
+  const placeShip = (p: Point): void => {
+    if (!activeShip) {
+      return;
+    }
+    const placed = grid.placeShip(p, activeShip, dir);
+    if (!placed) {
+      return;
+    }
+    setActiveShip(null);
   };
 
   const handleHover = (r: number, c: number, enter: boolean): void => {
@@ -40,7 +63,6 @@ export default function Setup() {
   };
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLDivElement>): void => {
-    console.log(e.key);
     if (e.key === 'r') {
       grid.clearHover();
       const newDir = dir === Dir.Across ? Dir.Down : Dir.Across;
@@ -52,6 +74,24 @@ export default function Setup() {
     e.preventDefault();
     e.stopPropagation();
   };
+
+  const reset = (): void => {
+    setGrid(new Grid());
+    setFleet(new Fleet());
+  }
+
+  const playGame = (): void => {
+    onSetup(grid, fleet);
+  }
+
+  const renderPlayButton = () => {
+    if (fleet.ships.every(s => s.pos)) {
+      return (
+        <button className="btn" onClick={playGame}>Play!</button>
+      );
+    }
+    return null;
+  }
 
   return (
     <div>
@@ -66,6 +106,7 @@ export default function Setup() {
             grid={grid}
             onMouseEnter={(r: number, c: number) => handleHover(r, c, true)}
             onMouseLeave={(r: number, c: number) => handleHover(r, c, false)}
+            onClick={(r: number, c: number) => placeShip([r, c])}
           ></GridView>
         </div>
         <SetupFleet
@@ -74,6 +115,10 @@ export default function Setup() {
           activeShip={activeShip}
           onKeyPress={handleKeyPress}
         />
+      </div>
+      <div className={"SetupButtons"}>
+        <button className="btn" onClick={reset}>Reset</button>
+        {renderPlayButton()}
       </div>
     </div>
   );

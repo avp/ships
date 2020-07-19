@@ -15,7 +15,9 @@ export function ShipView({ selected, ship, onClick }: Props) {
 
   return (
     <div
-      className={`Ship ${selected ? 'selected' : 'unselected'}`}
+      className={`Ship ${selected ? 'selected' : 'unselected'} ${
+        ship.kind.className
+      } ${ship.pos ? 'dimmed' : ''}`}
       style={{ width: size * 30 }}
       onClick={() => onClick(!selected, ship)}
     />
