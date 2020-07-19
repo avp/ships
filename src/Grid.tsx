@@ -11,7 +11,7 @@ interface Props {
 }
 
 /// Displays the given fleet on a grid.
-export default function Grid({ fleet }: Props) {
+export function Grid({ fleet }: Props) {
   const [grid, setGrid] = useState([]);
 
   const rows = [];

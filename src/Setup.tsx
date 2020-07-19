@@ -2,13 +2,22 @@
 
 import React, { useState } from 'react';
 import './Setup.css';
-import Grid from './Grid';
-import Ship from './Ship';
+import { Grid } from './Grid';
+import { ShipView } from './ShipView';
 
-import { Fleet } from './Fleet';
+import { Fleet, Ship } from './Fleet';
 
 export default function Setup() {
   const [fleet, setFleet] = useState(() => new Fleet());
+  const [activeShip, setActiveShip] = useState<Ship | null>(null);
+
+  const clickShip = (activated: boolean, ship: Ship) => {
+    if (activated) {
+      setActiveShip(ship);
+    } else {
+      setActiveShip(null);
+    }
+  };
 
   return (
     <div>
@@ -18,7 +27,11 @@ export default function Setup() {
       </p>
       <div className={'SetupContainer'}>
         <SetupGrid fleet={fleet}></SetupGrid>
-        <SetupFleet fleet={fleet}></SetupFleet>
+        <SetupFleet
+          fleet={fleet}
+          onClick={clickShip}
+          activeShip={activeShip}
+        ></SetupFleet>
       </div>
     </div>
   );
@@ -34,13 +47,20 @@ function SetupGrid({ fleet }: any) {
 
 interface SetupFleetProps {
   fleet: Fleet;
+  activeShip: Ship | null;
+  onClick(activated: boolean, ship: Ship): void;
 }
 
 function SetupFleet(props: SetupFleetProps) {
   const ships = [];
   for (const ship of props.fleet.ships) {
-    console.log(ship);
-    ships.push(<Ship selected={false} ship={ship} />);
+    ships.push(
+      <ShipView
+        selected={ship === props.activeShip}
+        ship={ship}
+        onClick={props.onClick}
+      />
+    );
   }
   console.log(ships);
   return <div className={'SetupFleet'}>{ships}</div>;
