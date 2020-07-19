@@ -13,3 +13,15 @@
   padding: 0;
   margin: 0;
 }
+
+.HoverNone {
+  background: transparent;
+}
+
+.HoverValid {
+  background: #008;
+}
+
+.HoverInvalid {
+  background: #800;
+}

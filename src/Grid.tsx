@@ -1,39 +1,56 @@
 // @format
 
-import React, { useState } from 'react';
-import './Grid.css';
-import { Fleet } from './Fleet';
+import { applyDir, Dir, Point } from './Geometry';
+import { Ship } from './Fleet';
 
-const GRID_SIZE = 10;
+export const GRID_SIZE = 10;
 
-interface Props {
-  fleet: Fleet;
+export enum HoverState {
+  None,
+  Valid,
+  Invalid,
 }
 
-/// Displays the given fleet on a grid.
-export function Grid({ fleet }: Props) {
-  const [grid, setGrid] = useState([]);
+export class Grid {
+  grid: Array<Array<Cell>>;
 
-  const rows = [];
-
-  const cells = [];
-  for (const ch of ' ABCDEFGHIJ') {
-    cells.push(<td>{ch}</td>);
-  }
-  rows.push(<tr className={'Row'}>{cells}</tr>);
-
-  for (let r = 0; r < GRID_SIZE; ++r) {
-    const cells = [];
-    cells.push(<td>{r + 1}</td>);
-    for (let c = 0; c < GRID_SIZE; ++c) {
-      cells.push(<td className={'Cell'} />);
+  constructor() {
+    this.grid = [];
+    for (let r = 0; r < GRID_SIZE; ++r) {
+      let row = [];
+      for (let c = 0; c < GRID_SIZE; ++c) {
+        row.push(new Cell());
+      }
+      this.grid.push(row);
     }
-    rows.push(<tr className={'Row'}>{cells}</tr>);
   }
 
-  return (
-    <table cellSpacing={0} className={'Grid'}>
-      {rows}
-    </table>
-  );
+  handleHover([r, c]: Point, enter: boolean, ship: Ship, dir: Dir): void {
+    const size = ship.size();
+    const points = [];
+    let state = HoverState.Valid;
+    for (let i = 0; i < size; ++i) {
+      points.push([r, c]);
+      if (this.grid[r][c].ship) {
+        state = HoverState.Invalid;
+      }
+      [r, c] = applyDir([r, c], dir);
+      if (r >= GRID_SIZE || c >= GRID_SIZE) {
+        break;
+      }
+    }
+    for (const [r, c] of points) {
+      this.grid[r][c].hover = enter ? state : HoverState.None;
+    }
+  }
+}
+
+export class Cell {
+  hover: HoverState;
+  ship: Ship | null;
+
+  constructor() {
+    this.hover = HoverState.None;
+    this.ship = null;
+  }
 }

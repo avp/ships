@@ -1,5 +1,7 @@
 // @format
 
+import { Dir } from './Geometry';
+
 interface Kind {
   name: string;
   size: number;
@@ -30,9 +32,13 @@ const kinds: Record<string, Kind> = {
 
 export class Ship {
   kind: Kind;
+  pos: [number, number] | null;
+  dir: Dir;
 
   constructor(kind: string) {
     this.kind = kinds[kind];
+    this.pos = null;
+    this.dir = Dir.Across;
     return this;
   }
 

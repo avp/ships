@@ -2,13 +2,17 @@
 
 import React, { useState } from 'react';
 import './Setup.css';
-import { Grid } from './Grid';
+import { GridView } from './GridView';
 import { ShipView } from './ShipView';
 
 import { Fleet, Ship } from './Fleet';
+import { Grid } from './Grid';
+import { Dir } from './Geometry';
 
 export default function Setup() {
+  const [forcer, setForcer] = useState(0);
   const [fleet, setFleet] = useState(() => new Fleet());
+  const [grid, setGrid] = useState(() => new Grid());
   const [activeShip, setActiveShip] = useState<Ship | null>(null);
 
   const clickShip = (activated: boolean, ship: Ship) => {
@@ -19,6 +23,15 @@ export default function Setup() {
     }
   };
 
+  const handleHover = (r: number, c: number, enter: boolean): void => {
+    if (!activeShip) {
+      return;
+    }
+    grid.handleHover([r, c], enter, activeShip, Dir.Across);
+    setGrid(grid);
+    setForcer(1 - forcer);
+  };
+
   return (
     <div>
       <h2>Setup</h2>
@@ -26,21 +39,22 @@ export default function Setup() {
         Press <code>r</code> to rotate
       </p>
       <div className={'SetupContainer'}>
-        <SetupGrid fleet={fleet}></SetupGrid>
-        <SetupFleet
+        <GridView
           fleet={fleet}
-          onClick={clickShip}
-          activeShip={activeShip}
-        ></SetupFleet>
+          grid={grid}
+          onMouseEnter={(r: number, c: number) => handleHover(r, c, true)}
+          onMouseLeave={(r: number, c: number) => handleHover(r, c, false)}
+        ></GridView>
+        <SetupFleet fleet={fleet} onClick={clickShip} activeShip={activeShip} />
       </div>
     </div>
   );
 }
 
-function SetupGrid({ fleet }: any) {
+function SetupGrid(props: any) {
   return (
     <div className={'SetupGrid'}>
-      <Grid fleet={fleet}></Grid>
+      <GridView {...props} />
     </div>
   );
 }
@@ -62,6 +76,5 @@ function SetupFleet(props: SetupFleetProps) {
       />
     );
   }
-  console.log(ships);
   return <div className={'SetupFleet'}>{ships}</div>;
 }
