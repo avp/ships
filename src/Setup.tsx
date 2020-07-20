@@ -19,6 +19,9 @@ interface Props {
  * be used for playing the actual game.
  */
 export function Setup({ onSetup }: Props) {
+  // Use this to force updates without shallow copying things like `grid`,
+  // when necessary.
+  // Can't find a React hooks way to force a reconciliation without this hack.
   const [forcer, setForcer] = useState(0);
   const [fleet, setFleet] = useState(() => new Fleet());
   const [grid, setGrid] = useState(() => new Grid());
@@ -26,6 +29,7 @@ export function Setup({ onSetup }: Props) {
   const [dir, setDir] = useState(Dir.Across);
   const [activeShip, setActiveShip] = useState<Ship | null>(null);
 
+  // Activate/Deactivate a ship on clicking it.
   const clickShip = (activated: boolean, ship: Ship) => {
     if (ship.pos) {
       return;
@@ -37,6 +41,7 @@ export function Setup({ onSetup }: Props) {
     }
   };
 
+  // Place activeShip at position p in direction `dir`.
   const placeShip = (p: Point): void => {
     if (!activeShip) {
       return;
@@ -57,8 +62,9 @@ export function Setup({ onSetup }: Props) {
     } else {
       setMouseLoc(null);
     }
-    grid.handleHover([r, c], enter, activeShip, dir);
-    setGrid(grid);
+    grid.handlePlacementHover([r, c], enter, activeShip, dir);
+    // setGrid(grid) doesn't actually do anything because `grid` hasn't changed.
+    // Use the forcer to circumvent that.
     setForcer(1 - forcer);
   };
 
@@ -67,7 +73,7 @@ export function Setup({ onSetup }: Props) {
       grid.clearHover();
       const newDir = dir === Dir.Across ? Dir.Down : Dir.Across;
       if (mouseLoc && activeShip) {
-        grid.handleHover(mouseLoc, true, activeShip, newDir);
+        grid.handlePlacementHover(mouseLoc, true, activeShip, newDir);
       }
       setDir(newDir);
     }

@@ -1,0 +1,41 @@
+.GameContainer {
+  display: flex;
+  flex-direction: row;
+}
+
+.GamePlayer {
+  display: grid;
+  margin: 0 2vw;
+}
+
+.GamePlayerHeader {
+  grid-column: 1 / 3;
+  grid-row: 1;
+}
+
+.GameHuman .Grid {
+  grid-column: 2;
+  grid-row: 2;
+}
+
+.GameHuman .GameFleet {
+  grid-column: 1;
+  grid-row: 2;
+  padding: 30px;
+}
+
+.GameComputer .Grid {
+  grid-column-start: 1;
+  grid-row-start: 2;
+}
+
+.GameComputer .GameFleet {
+  grid-column-start: 2;
+  grid-row-start: 2;
+  padding: 30px;
+}
+
+.GameButtons {
+  margin-top: 10px;
+}
+

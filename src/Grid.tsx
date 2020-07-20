@@ -72,7 +72,7 @@ export class Grid {
     return [result, points];
   }
 
-  handleHover(p: Point, enter: boolean, ship: Ship, dir: Dir): void {
+  handlePlacementHover(p: Point, enter: boolean, ship: Ship, dir: Dir): void {
     let [valid, points] = this.isValidPlacement(p, ship, dir);
     let state = valid ? HoverState.Valid : HoverState.Invalid;
     for (const [r, c] of points) {

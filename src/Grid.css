@@ -3,14 +3,21 @@
   margin: 5px;
 }
 
+.Grid td {
+  padding: 3px;
+}
+
 .Row {
 }
 
-.Cell {
-  width: 30px;
-  height: 30px;
+.Grid .Cell {
+  min-width: 1vw;
+  min-height: 1vw;
+  max-width: 1vw;
+  max-height: 1vw;
+  width: 1vw;
+  height: 1vw;
   border: 1px solid #888;
-  padding: 0;
   margin: 0;
 }
 

@@ -8,20 +8,31 @@ import { GRID_SIZE, HoverState, Grid } from './Grid';
 export interface Props {
   fleet: Fleet;
   grid: Grid;
-  onMouseEnter: (r: number, c: number) => void;
-  onMouseLeave: (r: number, c: number) => void;
+  hideFleet?: boolean;
+  onMouseEnter?: (r: number, c: number) => void;
+  onMouseLeave?: (r: number, c: number) => void;
   onClick?: (r: number, c: number) => void;
 }
 
 /// Displays the given fleet on a grid.
-export function GridView({ grid, onMouseEnter, onMouseLeave, onClick}: Props) {
+export function GridView({
+  grid,
+  onMouseEnter,
+  onMouseLeave,
+  onClick,
+  hideFleet,
+}: Props) {
   const rows = [];
 
   const cells = [];
   for (const ch of ' ABCDEFGHIJ') {
     cells.push(<td key={ch}>{ch}</td>);
   }
-  rows.push(<tr key={-1000} className={'Row'}>{cells}</tr>);
+  rows.push(
+    <tr key={-1000} className={'Row'}>
+      {cells}
+    </tr>
+  );
 
   let key = 0;
   for (let r = 0; r < GRID_SIZE; ++r) {
@@ -41,20 +52,24 @@ export function GridView({ grid, onMouseEnter, onMouseLeave, onClick}: Props) {
           break;
       }
       const ship = grid.grid[r][c].ship;
-      if (ship) {
+      if (ship && !hideFleet) {
         className.push(ship.kind.className);
       }
       cells.push(
         <td
           key={++key}
           className={className.join(' ')}
-          onMouseOver={() => onMouseEnter(r, c)}
-          onMouseOut={() => onMouseLeave(r, c)}
+          onMouseOver={() => onMouseEnter?.(r, c)}
+          onMouseOut={() => onMouseLeave?.(r, c)}
           onClick={() => onClick?.(r, c)}
         />
       );
     }
-    rows.push(<tr key={++key} className={'Row'}>{cells}</tr>);
+    rows.push(
+      <tr key={++key} className={'Row'}>
+        {cells}
+      </tr>
+    );
   }
 
   return (

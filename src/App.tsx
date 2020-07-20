@@ -7,20 +7,21 @@ import { Game } from './Game';
 import { Grid } from './Grid';
 import { Fleet } from './Fleet';
 
-enum Phase {
-  Setup,
-  Play,
-}
-
 export default function App() {
-  const [phase, setPhase] = useState(Phase.Setup);
+  const [grid, setGrid] = useState<Grid | null>(null);
+  const [fleet, setFleet] = useState<Fleet | null>(null);
 
   const completeSetup = (grid: Grid, fleet: Fleet) => {
-    setPhase(Phase.Play);
+    setGrid(grid);
+    setFleet(fleet);
   };
 
-  const inside =
-    phase === Phase.Setup ? <Setup onSetup={completeSetup} /> : <Game />;
+  let inside;
+  if (grid && fleet) {
+      inside = <Game grid={grid} fleet={fleet} />;
+  } else {
+      inside = <Setup onSetup={completeSetup} />;
+  }
 
   return (
     <div className="App">

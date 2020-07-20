@@ -7,7 +7,7 @@ import { Fleet, Ship } from './Fleet';
 interface Props {
   selected: boolean;
   ship: Ship;
-  onClick(activated: boolean, ship: Ship): void;
+  onClick?(activated: boolean, ship: Ship): void;
 }
 
 export function ShipView({ selected, ship, onClick }: Props) {
@@ -19,7 +19,7 @@ export function ShipView({ selected, ship, onClick }: Props) {
         ship.kind.className
       } ${ship.pos ? 'dimmed' : ''}`}
       style={{ width: size * 30 }}
-      onClick={() => onClick(!selected, ship)}
+      onClick={() => onClick?.(!selected, ship)}
     />
   );
 }
