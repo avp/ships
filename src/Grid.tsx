@@ -1,7 +1,7 @@
 // @format
 
 import { applyDir, Dir, Point } from './Geometry';
-import { Ship } from './Fleet';
+import { Fleet, Ship } from './Fleet';
 
 export const GRID_SIZE = 10;
 
@@ -23,6 +23,24 @@ export class Grid {
       }
       this.grid.push(row);
     }
+  }
+
+  static randomize(fleet: Fleet): Grid {
+    const grid = new Grid();
+
+    for (const ship of fleet.ships) {
+      while (!ship.pos) {
+        const r = Math.floor(Math.random() * GRID_SIZE);
+        const c = Math.floor(Math.random() * GRID_SIZE);
+        const dir = Math.random() < 0.5 ? Dir.Across : Dir.Down;
+        const pos: Point = [r, c];
+        if (grid.isValidPlacement(pos, ship, dir)) {
+          grid.placeShip(pos, ship, dir);
+        }
+      }
+    }
+
+    return grid;
   }
 
   clearHover(): void {

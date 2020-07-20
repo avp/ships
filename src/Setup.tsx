@@ -18,7 +18,7 @@ interface Props {
  * Pass the onSetup() hook in order to get the grid and fleet which will
  * be used for playing the actual game.
  */
-export function Setup({onSetup}: Props) {
+export function Setup({ onSetup }: Props) {
   const [forcer, setForcer] = useState(0);
   const [fleet, setFleet] = useState(() => new Fleet());
   const [grid, setGrid] = useState(() => new Grid());
@@ -78,20 +78,28 @@ export function Setup({onSetup}: Props) {
   const reset = (): void => {
     setGrid(new Grid());
     setFleet(new Fleet());
-  }
+  };
+
+  const randomize = (): void => {
+    const newFleet = new Fleet();
+    setFleet(newFleet);
+    setGrid(Grid.randomize(newFleet));
+  };
 
   const playGame = (): void => {
     onSetup(grid, fleet);
-  }
+  };
 
   const renderPlayButton = () => {
-    if (fleet.ships.every(s => s.pos)) {
+    if (fleet.ships.every((s) => s.pos)) {
       return (
-        <button className="btn" onClick={playGame}>Play!</button>
+        <button className="btn" onClick={playGame}>
+          Play!
+        </button>
       );
     }
     return null;
-  }
+  };
 
   return (
     <div>
@@ -116,9 +124,16 @@ export function Setup({onSetup}: Props) {
           onKeyPress={handleKeyPress}
         />
       </div>
-      <div className={"SetupButtons"}>
-        <button className="btn" onClick={reset}>Reset</button>
-        {renderPlayButton()}
+      <div className={'SetupButtons'}>
+        <div>
+          <button className="btn" onClick={reset}>
+            Reset
+          </button>
+          <button className="btn" onClick={randomize}>
+            Randomize
+          </button>
+        </div>
+        <div>{renderPlayButton()}</div>
       </div>
     </div>
   );
