@@ -26,7 +26,11 @@ export function GridView({
 
   const cells = [];
   for (const ch of ' ABCDEFGHIJ') {
-    cells.push(<td key={ch}>{ch}</td>);
+    cells.push(
+      <td key={ch}>
+        <div className={'content'}>{ch}</div>
+      </td>
+    );
   }
   rows.push(
     <tr key={-1000} className={'Row'}>
@@ -37,7 +41,11 @@ export function GridView({
   let key = 0;
   for (let r = 0; r < GRID_SIZE; ++r) {
     const cells = [];
-    cells.push(<td key={-1 * r}>{r + 1}</td>);
+    cells.push(
+      <td key={-1 * r}>
+        <div className={'content'}>{r + 1}</div>
+      </td>
+    );
     for (let c = 0; c < GRID_SIZE; ++c) {
       let className = ['Cell'];
       switch (grid.grid[r][c].hover) {

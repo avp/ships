@@ -1,24 +1,32 @@
 .Grid {
+  table-layout: fixed;
   border-collapse: collapse;
   margin: 5px;
+  min-width: 250px;
+  width: 20vw;
 }
 
 .Grid td {
-  padding: 3px;
+  min-height: 0;
+  height: 0;
+  max-height: 0;
+  width: 8%;
+  position: relative;
+  padding-bottom: 3px;
+  margin: 0;
+}
+
+.Grid .Cell:after {
+  content: '';
+  display: block;
+  margin-top: 95%;
 }
 
 .Row {
 }
 
 .Grid .Cell {
-  min-width: 1vw;
-  min-height: 1vw;
-  max-width: 1vw;
-  max-height: 1vw;
-  width: 1vw;
-  height: 1vw;
   border: 1px solid #888;
-  margin: 0;
 }
 
 .HoverNone {

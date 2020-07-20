@@ -18,7 +18,7 @@ export function ShipView({ selected, ship, onClick }: Props) {
       className={`Ship ${selected ? 'selected' : 'unselected'} ${
         ship.kind.className
       } ${ship.pos ? 'dimmed' : ''}`}
-      style={{ width: size * 30 }}
+      style={{ width: size * 25 }}
       onClick={() => onClick?.(!selected, ship)}
     />
   );

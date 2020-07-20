@@ -1,5 +1,6 @@
 .Ship {
-  height: 28px;
+  min-height: 15px;
+  height: 20px;
   margin: 10px;
 }
 
