@@ -16,11 +16,16 @@ export default function App() {
     setFleet(fleet);
   };
 
+  const reset = () => {
+    setGrid(null);
+    setFleet(null);
+  }
+
   let inside;
   if (grid && fleet) {
-      inside = <Game grid={grid} fleet={fleet} />;
+    inside = <Game grid={grid} fleet={fleet} onComplete={reset} />;
   } else {
-      inside = <Setup onSetup={completeSetup} />;
+    inside = <Setup onSetup={completeSetup} />;
   }
 
   return (

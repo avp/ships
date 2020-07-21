@@ -13,20 +13,42 @@ import { Player, Human, Computer } from './Player';
 interface Props {
   grid: Grid;
   fleet: Fleet;
+  onComplete(): void;
 }
 
-export function Game({ grid, fleet }: Props) {
+export function Game({ grid, fleet, onComplete }: Props) {
   const [forcer, setForcer] = useState(0);
   let [computer, setComputer] = useState(() => new Computer());
   let [human, setHuman] = useState(() => new Human(grid, fleet));
-  let [turn, setTurn] = useState<Player>(human);
+  let [turn, setTurn] = useState<Player | null>(human);
+  let [winner, setWinner] = useState<Player | null>(null);
 
   const renderTurn = () => {
+    if (winner) {
+      return winner === human ? 'You win!' : 'Computer wins';
+    }
     if (turn === human) {
       return 'Your turn';
-    } else if (turn === computer) {
+    }
+    if (turn === computer) {
       return 'Computer is thinking...';
     }
+  };
+
+  const changePlayer = (player: Player) => {
+    if (human.fleet.ships.every((s) => s.isSunk(human.grid))) {
+      setWinner(computer);
+      setTurn(null);
+      return;
+    }
+
+    if (computer.fleet.ships.every((s) => s.isSunk(computer.grid))) {
+      setWinner(human);
+      setTurn(null);
+      return;
+    }
+
+    setTurn(player);
   };
 
   const handleHover = (grid: Grid, [r, c]: Point, entered: boolean) => {
@@ -51,11 +73,11 @@ export function Game({ grid, fleet }: Props) {
     }
     cell.attempt = true;
     cell.hover = HoverState.None;
-    setTurn(computer);
+    changePlayer(computer);
     setTimeout(() => {
       computer.makeMove(human.grid);
-      setTurn(human);
-    }, 500);
+      changePlayer(human);
+    }, 100);
   };
 
   return (
@@ -65,7 +87,7 @@ export function Game({ grid, fleet }: Props) {
         <div className="GamePlayer GameHuman">
           <h3 className="GamePlayerHeader">You</h3>
           <GridView fleet={human.fleet} grid={human.grid}></GridView>
-          <GameFleet fleet={human.fleet}></GameFleet>
+          <GameFleet fleet={human.fleet} grid={human.grid}></GameFleet>
         </div>
         <div className="GamePlayer GameComputer">
           <h3 className="GamePlayerHeader">Computer</h3>
@@ -77,8 +99,13 @@ export function Game({ grid, fleet }: Props) {
             onClick={(r, c) => makeMove(computer.grid, [r, c])}
             hideFleet={true}
           ></GridView>
-          <GameFleet fleet={computer.fleet}></GameFleet>
+          <GameFleet fleet={computer.fleet} grid={computer.grid}></GameFleet>
         </div>
+      </div>
+      <div className={'GameButtons'}>
+        <button className={'btn'} onClick={onComplete}>
+          Reset
+        </button>
       </div>
     </div>
   );
@@ -86,12 +113,20 @@ export function Game({ grid, fleet }: Props) {
 
 interface GameFleetProps {
   fleet: Fleet;
+  grid: Grid;
 }
 
 function GameFleet(props: GameFleetProps) {
   const ships = [];
   for (const ship of props.fleet.ships) {
-    ships.push(<ShipView selected={false} key={ship.kind.name} ship={ship} />);
+    ships.push(
+      <ShipView
+        selected={false}
+        key={ship.kind.name}
+        ship={ship}
+        dimOnSunk={props.grid}
+      />
+    );
   }
   return <div className={'GameFleet'}>{ships}</div>;
 }
