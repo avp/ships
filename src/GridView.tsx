@@ -42,7 +42,7 @@ export function GridView({
   for (let r = 0; r < GRID_SIZE; ++r) {
     const cells = [];
     cells.push(
-      <td key={-1 * r}>
+      <td className={'CellLabel'} key={-1 * r}>
         <div className={'content'}>{r + 1}</div>
       </td>
     );
@@ -59,10 +59,18 @@ export function GridView({
           className.push('HoverInvalid');
           break;
       }
-      const ship = grid.grid[r][c].ship;
+      const cell = grid.grid[r][c];
+      const ship = cell.ship;
       if (ship && !hideFleet) {
         className.push(ship.kind.className);
       }
+      const attempt = (
+        <div
+          className={`Attempt ${
+            cell.attempt ? (cell.ship ? 'AttemptHit' : 'AttemptMiss') : ''
+          }`}
+        ></div>
+      );
       cells.push(
         <td
           key={++key}
@@ -70,7 +78,9 @@ export function GridView({
           onMouseOver={() => onMouseEnter?.(r, c)}
           onMouseOut={() => onMouseLeave?.(r, c)}
           onClick={() => onClick?.(r, c)}
-        />
+        >
+          {attempt}
+        </td>
       );
     }
     rows.push(

@@ -12,11 +12,10 @@
   max-height: 0;
   width: 8%;
   position: relative;
-  padding-bottom: 3px;
   margin: 0;
 }
 
-.Grid .Cell:after {
+.Grid .Cell::after {
   content: '';
   display: block;
   margin-top: 95%;
@@ -39,4 +38,24 @@
 
 .HoverInvalid {
   background: #a00;
+}
+
+.Attempt {
+  border: 1px solid #222;
+  border-radius: 50%;
+  width: 50%;
+  height: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  position: absolute;
+  background: transparent;
+}
+
+.AttemptMiss {
+  background: blue;
+}
+
+.AttemptHit {
+  background: red;
 }

@@ -161,6 +161,7 @@ function SetupFleet(props: SetupFleetProps) {
         key={ship.kind.name}
         ship={ship}
         onClick={props.onClick}
+        dimIfPlaced={true}
       />
     );
   }

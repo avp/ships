@@ -11,6 +11,17 @@ export enum HoverState {
   Invalid,
 }
 
+enum Result {
+  Hit,
+  Miss,
+}
+
+interface Attempt {
+  p: Point;
+  result: Result;
+}
+
+
 export class Grid {
   grid: Array<Array<Cell>>;
 
@@ -99,9 +110,11 @@ export class Grid {
 export class Cell {
   hover: HoverState;
   ship: Ship | null;
+  attempt: boolean;
 
   constructor() {
     this.hover = HoverState.None;
     this.ship = null;
+    this.attempt = false;
   }
 }

@@ -1,11 +1,11 @@
 // @format
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Game.css';
 import { GridView } from './GridView';
 import { ShipView } from './ShipView';
 
-import { Grid } from './Grid';
+import { HoverState, Grid } from './Grid';
 import { Point } from './Geometry';
 import { Fleet } from './Fleet';
 import { Player, Human, Computer } from './Player';
@@ -15,17 +15,8 @@ interface Props {
   fleet: Fleet;
 }
 
-enum Result {
-  Hit,
-  Miss,
-}
-
-interface Attempt {
-  p: Point;
-  result: Result;
-}
-
 export function Game({ grid, fleet }: Props) {
+  const [forcer, setForcer] = useState(0);
   let [computer, setComputer] = useState(() => new Computer());
   let [human, setHuman] = useState(() => new Human(grid, fleet));
   let [turn, setTurn] = useState<Player>(human);
@@ -36,6 +27,35 @@ export function Game({ grid, fleet }: Props) {
     } else if (turn === computer) {
       return 'Computer is thinking...';
     }
+  };
+
+  const handleHover = (grid: Grid, [r, c]: Point, entered: boolean) => {
+    if (turn !== human) {
+      return;
+    }
+    if (entered && !grid.grid[r][c].attempt) {
+      grid.grid[r][c].hover = HoverState.Valid;
+    } else {
+      grid.grid[r][c].hover = HoverState.None;
+    }
+    setForcer(1 - forcer);
+  };
+
+  const makeMove = (grid: Grid, [r, c]: Point) => {
+    if (turn !== human) {
+      return;
+    }
+    const cell = grid.grid[r][c];
+    if (cell.attempt) {
+      return;
+    }
+    cell.attempt = true;
+    cell.hover = HoverState.None;
+    setTurn(computer);
+    setTimeout(() => {
+      computer.makeMove(human.grid);
+      setTurn(human);
+    }, 500);
   };
 
   return (
@@ -52,6 +72,9 @@ export function Game({ grid, fleet }: Props) {
           <GridView
             fleet={computer.fleet}
             grid={computer.grid}
+            onMouseEnter={(r, c) => handleHover(computer.grid, [r, c], true)}
+            onMouseLeave={(r, c) => handleHover(computer.grid, [r, c], false)}
+            onClick={(r, c) => makeMove(computer.grid, [r, c])}
             hideFleet={true}
           ></GridView>
           <GameFleet fleet={computer.fleet}></GameFleet>

@@ -1,6 +1,7 @@
 // @format
 
-import { Grid } from './Grid';
+import { Grid, GRID_SIZE } from './Grid';
+import { Point } from './Geometry';
 import { Fleet, Ship } from './Fleet';
 
 export class Player {
@@ -24,5 +25,16 @@ export class Computer extends Player {
     const fleet = new Fleet();
     const grid = Grid.randomize(fleet);
     super(grid, fleet);
+  }
+
+  makeMove(grid: Grid): Point {
+    while (true) {
+      const r = Math.floor(Math.random() * GRID_SIZE);
+      const c = Math.floor(Math.random() * GRID_SIZE);
+      if (!grid.grid[r][c].attempt) {
+        grid.grid[r][c].attempt = true;
+        return [r, c];
+      }
+    }
   }
 }

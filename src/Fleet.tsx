@@ -1,6 +1,7 @@
 // @format
 
-import { Dir } from './Geometry';
+import { Dir, applyDir } from './Geometry';
+import { Grid } from './Grid';
 
 interface Kind {
   name: string;
@@ -50,6 +51,20 @@ export class Ship {
 
   size(): number {
     return this.kind.size;
+  }
+
+  isSunk(grid: Grid): boolean {
+    if (!this.pos) {
+      return false;
+    }
+    let [r, c] = this.pos;
+    for (let i = 0; i < this.size(); ++i) {
+      if (!grid.grid[r][c].attempt) {
+        return false;
+      }
+      [r, c] = applyDir([r, c], this.dir);
+    }
+    return true;
   }
 }
 
