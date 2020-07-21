@@ -2,22 +2,23 @@
   min-height: 15px;
   height: 20px;
   margin: 10px;
+  position: relative;
 }
 
 .selected {
-  border: 3px solid yellow;
+  border: 5px solid white;
 }
 
 .unselected {
-  border: 3px solid transparent;
+  border: 5px solid transparent;
 }
 
 .Destroyer {
-  background: #e4e;
+  background: #44e;
 }
 
 .Submarine {
-  background: #0e0;
+  background: #0e8;
 }
 
 .Cruiser {
@@ -25,13 +26,21 @@
 }
 
 .Battleship {
-  background: #ee0;
+  background: #ea3;
 }
 
 .Carrier {
-  background: #aae;
+  background: #eae;
 }
 
 .dimmed {
-  filter: brightness(30%);
+  /* filter: brightness(30%); */
+}
+
+.sunk:after {
+  content: '\274c';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }

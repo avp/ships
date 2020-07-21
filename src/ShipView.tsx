@@ -28,7 +28,7 @@ export function ShipView({
     className.push('dimmed');
   }
   if (dimOnSunk && ship.isSunk(dimOnSunk)) {
-    className.push('dimmed');
+    className.push('sunk');
   }
 
   return (

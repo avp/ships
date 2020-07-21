@@ -109,9 +109,13 @@ export function Setup({ onSetup }: Props) {
 
   return (
     <div>
-      <h2>Setup</h2>
+      <h2>Ship Placement</h2>
       <p>
-        Press <code>r</code> to rotate
+        Click on a ship to select it, then put it on the grid.
+        Press <code>r</code> to rotate.
+      </p>
+      <p>
+        Or, just click the "Randomize" button!
       </p>
       <div className={'SetupContainer'}>
         <div className={'SetupGrid'}>
