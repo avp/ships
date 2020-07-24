@@ -22,6 +22,11 @@
   grid-column: 1;
   grid-row: 2;
   padding: 30px;
+  align-content: right;
+}
+
+.GameHuman .GameFleet .Ship {
+  flex-direction: row-reverse;
 }
 
 .GameComputer .Grid {

@@ -1,17 +1,29 @@
 .Ship {
   min-height: 15px;
-  height: 20px;
-  margin: 10px;
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 5px;
   position: relative;
 }
 
-.selected {
-  border: 5px solid white;
+.Ship .GridElement {
+  width: 15px;
+  height: 15px;
+  border: 1px solid #888;
+  /* margin-left: -1px; */
 }
 
-.unselected {
-  border: 5px solid transparent;
+.selected {
+  filter: brightness(180%);
 }
+
+/* .selected { */
+/*   border: 3px solid white; */
+/* } */
+
+/* .unselected { */
+/*   border: 3px solid transparent; */
+/* } */
 
 .Destroyer {
   background: #44e;
@@ -34,13 +46,10 @@
 }
 
 .dimmed {
-  /* filter: brightness(30%); */
+  filter: brightness(30%);
 }
 
-.sunk:after {
-  content: '\274c';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+.sunk {
+  /* filter: grayscale(100%); */
+  opacity: 0.1;
 }

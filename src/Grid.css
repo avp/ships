@@ -1,24 +1,19 @@
 .Grid {
-  table-layout: fixed;
-  border-collapse: collapse;
-  margin: 5px;
-  min-width: 200px;
-  width: 17vw;
+  /* position: absolute; */
+  display: grid;
+  grid-template-rows: repeat(11, 1fr);
+  grid-template-columns: repeat(11, 1fr);
+  width: 300px;
+  height: 300px;
 }
 
-.Grid td {
-  min-height: 0;
-  height: 0;
-  max-height: 0;
-  width: 8%;
+.GridElement {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   position: relative;
-  margin: 0;
-}
-
-.Grid .Cell::after {
-  content: '';
-  display: block;
-  margin-top: 95%;
+  margin-left: -1px;;
+  margin-bottom: -1px;;
 }
 
 .Row {

@@ -27,24 +27,24 @@ export function GridView({
   const cells = [];
   for (const ch of ' ABCDEFGHIJ') {
     cells.push(
-      <td key={ch}>
+      <div className={'GridElement CellLabel'} key={ch}>
         <div className={'content'}>{ch}</div>
-      </td>
+      </div>
     );
   }
   rows.push(
-    <tr key={-1000} className={'Row'}>
+    <div key={-1000} className={'GridRow'}>
       {cells}
-    </tr>
+    </div>
   );
 
   let key = 0;
   for (let r = 0; r < GRID_SIZE; ++r) {
-    const cells = [];
+    // const cells = [];
     cells.push(
-      <td className={'CellLabel'} key={-1 * r}>
+      <div className={'GridElement CellLabel'} key={-1 * r}>
         <div className={'content'}>{r + 1}</div>
-      </td>
+      </div>
     );
     for (let c = 0; c < GRID_SIZE; ++c) {
       let className = ['Cell'];
@@ -72,27 +72,27 @@ export function GridView({
         ></div>
       );
       cells.push(
-        <td
+        <div
           key={++key}
-          className={className.join(' ')}
+          className={className.join(' ') + ' ' + 'GridElement'}
           onMouseOver={() => onMouseEnter?.(r, c)}
           onMouseOut={() => onMouseLeave?.(r, c)}
           onClick={() => onClick?.(r, c)}
         >
           {attempt}
-        </td>
+        </div>
       );
     }
-    rows.push(
-      <tr key={++key} className={'Row'}>
-        {cells}
-      </tr>
-    );
+    // rows.push(
+    //   <div key={++key} className={'GridRow Row'}>
+    //     {cells}
+    //   </div>
+    // );
   }
 
   return (
-    <table cellSpacing={0} className={'Grid'}>
-      <tbody>{rows}</tbody>
-    </table>
+    <div className={'GridContainer'}>
+      <div className={'Grid'}>{cells}</div>
+    </div>
   );
 }

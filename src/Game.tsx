@@ -97,7 +97,7 @@ export function Game({ grid, fleet, onComplete }: Props) {
             onMouseEnter={(r, c) => handleHover(computer.grid, [r, c], true)}
             onMouseLeave={(r, c) => handleHover(computer.grid, [r, c], false)}
             onClick={(r, c) => makeMove(computer.grid, [r, c])}
-            hideFleet={true}
+            hideFleet={!winner}
           ></GridView>
           <GameFleet fleet={computer.fleet} grid={computer.grid}></GameFleet>
         </div>
