@@ -22,8 +22,6 @@ export function GridView({
   onClick,
   hideFleet,
 }: Props) {
-  const rows = [];
-
   const cells = [];
   for (const ch of ' ABCDEFGHIJ') {
     cells.push(
@@ -32,11 +30,6 @@ export function GridView({
       </div>
     );
   }
-  rows.push(
-    <div key={-1000} className={'GridRow'}>
-      {cells}
-    </div>
-  );
 
   let key = 0;
   for (let r = 0; r < GRID_SIZE; ++r) {
