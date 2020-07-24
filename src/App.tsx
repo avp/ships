@@ -30,7 +30,7 @@ export default function App() {
 
   return (
     <div className="App">
-      <h1>SUPER DELUXE SHIP BATTLE</h1>
+      <h1>SHIPS IN A GRID</h1>
       {inside}
     </div>
   );
