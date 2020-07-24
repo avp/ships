@@ -1,8 +1,8 @@
 // @format
 
-import React, { useState } from 'react';
+import React from 'react';
 import './Ship.css';
-import { Fleet, Ship } from './Fleet';
+import { Ship } from './Fleet';
 import { Grid } from './Grid';
 
 interface Props {

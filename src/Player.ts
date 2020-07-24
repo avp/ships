@@ -2,7 +2,7 @@
 
 import { Grid, GRID_SIZE } from './Grid';
 import { Point } from './Geometry';
-import { Fleet, Ship } from './Fleet';
+import { Fleet } from './Fleet';
 
 export class Player {
   grid: Grid;
@@ -14,11 +14,7 @@ export class Player {
   }
 }
 
-export class Human extends Player {
-  constructor(grid: Grid, fleet: Fleet) {
-    super(grid, fleet);
-  }
-}
+export class Human extends Player {}
 
 export class Computer extends Player {
   constructor() {

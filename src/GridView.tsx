@@ -1,6 +1,6 @@
 // @format
 
-import React, { useState } from 'react';
+import React from 'react';
 import './Grid.css';
 import { Fleet } from './Fleet';
 import { GRID_SIZE, HoverState, Grid } from './Grid';
@@ -74,7 +74,7 @@ export function GridView({
       cells.push(
         <div
           key={++key}
-          className={className.join(' ') + ' ' + 'GridElement'}
+          className={className.join(' ') + ' GridElement'}
           onMouseOver={() => onMouseEnter?.(r, c)}
           onMouseOut={() => onMouseLeave?.(r, c)}
           onClick={() => onClick?.(r, c)}
@@ -83,11 +83,6 @@ export function GridView({
         </div>
       );
     }
-    // rows.push(
-    //   <div key={++key} className={'GridRow Row'}>
-    //     {cells}
-    //   </div>
-    // );
   }
 
   return (

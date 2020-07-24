@@ -1,6 +1,6 @@
 // @format
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './Game.css';
 import { GridView } from './GridView';
 import { ShipView } from './ShipView';
@@ -18,8 +18,8 @@ interface Props {
 
 export function Game({ grid, fleet, onComplete }: Props) {
   const [forcer, setForcer] = useState(0);
-  let [computer, setComputer] = useState(() => new Computer());
-  let [human, setHuman] = useState(() => new Human(grid, fleet));
+  let [computer] = useState(() => new Computer());
+  let [human] = useState(() => new Human(grid, fleet));
   let [turn, setTurn] = useState<Player | null>(human);
   let [winner, setWinner] = useState<Player | null>(null);
 
