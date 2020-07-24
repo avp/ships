@@ -1,5 +1,4 @@
 .Ship {
-  min-height: 15px;
   display: flex;
   flex-direction: row;
   margin-bottom: 5px;
@@ -7,23 +6,11 @@
 }
 
 .Ship .GridElement {
-  width: 15px;
-  height: 15px;
+  --size: 18px;
+  width: var(--size);
+  height: var(--size);
   border: 1px solid #888;
-  /* margin-left: -1px; */
 }
-
-.selected {
-  filter: brightness(180%);
-}
-
-/* .selected { */
-/*   border: 3px solid white; */
-/* } */
-
-/* .unselected { */
-/*   border: 3px solid transparent; */
-/* } */
 
 .Destroyer {
   background: #44e;
@@ -45,11 +32,14 @@
   background: #eae;
 }
 
-.dimmed {
+.ShipSelected {
+  filter: brightness(180%);
+}
+
+.ShipDimmed {
   filter: brightness(30%);
 }
 
-.sunk {
-  /* filter: grayscale(100%); */
+.ShipSunk {
   opacity: 0.1;
 }

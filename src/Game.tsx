@@ -86,8 +86,8 @@ export function Game({ grid, fleet, onComplete }: Props) {
       <div className="GameContainer">
         <div className="GamePlayer GameHuman">
           <h3 className="GamePlayerHeader">You</h3>
-          <GridView fleet={human.fleet} grid={human.grid}></GridView>
           <GameFleet fleet={human.fleet} grid={human.grid}></GameFleet>
+          <GridView fleet={human.fleet} grid={human.grid}></GridView>
         </div>
         <div className="GamePlayer GameComputer">
           <h3 className="GamePlayerHeader">Computer</h3>

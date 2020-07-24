@@ -22,20 +22,28 @@ export function ShipView({
 }: Props) {
   const size: number = ship.kind.size;
 
-  const className = ['Ship', ship.kind.className];
-  className.push(selected ? 'selected' : 'unselected');
+  const className = ['Ship'];
+  className.push(selected ? 'ShipSelected' : 'ShipUnselected');
   if (dimIfPlaced && ship.pos) {
-    className.push('dimmed');
+    className.push('ShipDimmed');
   }
   if (dimOnSunk && ship.isSunk(dimOnSunk)) {
-    className.push('sunk');
+    className.push('ShipSunk');
+  }
+
+  const cells = [];
+  for (let i = 0; i < size; ++i) {
+    cells.push(
+      <div key={i} className={`GridElement ${ship.kind.className}`} />
+    );
   }
 
   return (
     <div
       className={className.join(' ')}
-      style={{ width: size * 25 }}
       onClick={() => onClick?.(!selected, ship)}
-    />
+    >
+      {cells}
+    </div>
   );
 }

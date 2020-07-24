@@ -1,19 +1,32 @@
 .GameContainer {
   display: flex;
   flex-direction: row;
+  padding: 5px;
 }
 
 .GamePlayer {
   display: grid;
+  grid-template-columns: auto auto;
+  grid-template-rows: auto auto;
   margin: 0 2vw;
 }
 
-.GamePlayerHeader {
-  grid-column: 1 / 3;
+.GameComputer .GamePlayerHeader {
+  grid-column: 1;
   grid-row: 1;
 }
 
-.GameHuman .Grid {
+.GameHuman .GamePlayerHeader {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.GamePlayerHeader {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.GridContainer {
   grid-column: 2;
   grid-row: 2;
 }
@@ -22,14 +35,17 @@
   grid-column: 1;
   grid-row: 2;
   padding: 30px;
-  align-content: right;
+}
+
+.GameComputer .GameFleet .Ship {
+  flex-direction: row;
 }
 
 .GameHuman .GameFleet .Ship {
   flex-direction: row-reverse;
 }
 
-.GameComputer .Grid {
+.GameComputer .GridContainer {
   grid-column-start: 1;
   grid-row-start: 2;
 }
@@ -41,5 +57,5 @@
 }
 
 .GameButtons {
-  margin-top: 10px;
+  margin-top: 30px;
 }
